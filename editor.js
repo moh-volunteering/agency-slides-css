@@ -1,9 +1,12 @@
 /* محرر عروض الوكالة: ترتيب الشرائح، تغيير القالب أو الشكل، تحريك العناصر. يعمل خارج معاينة معرفة (تبويب جديد أو ملف محفوظ). */
 (function () {
+  if (!document.body) { document.addEventListener('DOMContentLoaded', arguments.callee); return; }
   if (window.__agEd) return; window.__agEd = 1;
   var D = document;
   var GROUPS = [["section","section2"],["circles3","icons3"],["cards4","target4"],["timeline5","steps5"],["path6","wave6","puzzle6","arrows6","rows6","white6"],["icons4","quad4","bars4","rings4","puzzle4","monitor4","blocks4","curve4","numcards4","ribbons4","flags4","layers4","mountain4","chevrons4","funnel4","stack4","levels4"],["circles5","checks5","dots5","hex5","stairs5","colordots5","bars5"],["ring4","petals4"],["zigzag4","hexline4","pyramid4"],["venn3","bullseye3"],["matrix4","cycle4","orbit4"]];
   var SHAPES = {bcols:"أعمدة بنقاط", list:"قائمة مرقمة", chips:"بطاقات", cols:"أعمدة مرقمة", grid:"شبكة", points:"نقاط", nbcols:"مراحل بنقاط"};
+  var NUMSH = {nums:"بطاقات أرقام", num1:"رقم بارز", hbar:"أعمدة أفقية"};
+  var TXTSH = {note:"صندوق", quote:"عبارة بارزة", points:"نقاط"};
   var NAMES = {"section":"فاصل","section2":"فاصل 2","circles3":"دوائر","icons3":"أيقونات","cards4":"بطاقات","target4":"هدف","timeline5":"خط زمني","steps5":"خطوات"};
 
   var css = D.createElement('style'); css.setAttribute('data-ed', '');
@@ -24,6 +27,50 @@
   function slides() { return [].slice.call(D.querySelectorAll('section.slide')); }
   function tplOf(s) { var c = s.className.split(/\s+/); return c.filter(function (x) { return x && x !== 'slide'; })[0] || ''; }
   function shapeOf(s) { var a = s.querySelector('.a>*'); if (!a) return null; for (var k in SHAPES) if (a.classList.contains(k)) return a; return null; }
+  function fam(s) {
+    var a = s.querySelector('.a>*'); if (!a) return null;
+    for (var k in NUMSH) if (a.classList.contains(k)) return {f: 'n', el: a, k: k};
+    for (var k2 in TXTSH) if (a.classList.contains(k2)) return {f: 'x', el: a, k: k2};
+    return null;
+  }
+  function numItems(el, k) {
+    var out = [];
+    if (k === 'num1') {
+      var m = el.querySelector(':scope>div'); if (m) out.push({n: txt(m.querySelector('b')), l: txt(m.querySelector('span'))});
+      [].forEach.call(el.querySelectorAll('li'), function (li) { var b = li.querySelector('b'), c = li.cloneNode(true); var bb = c.querySelector('b'); if (bb) bb.remove(); out.push({n: txt(b), l: txt(c)}); });
+    } else if (k === 'hbar') {
+      [].forEach.call(el.children, function (d) { out.push({n: txt(d.querySelector('b')), l: txt(d.querySelector('span'))}); });
+    } else {
+      [].forEach.call(el.children, function (d) { var c = d.cloneNode(true), b = c.querySelector('b'); var n = txt(b); if (b) b.remove(); out.push({n: n, l: txt(c)}); });
+    }
+    return out.filter(function (x) { return x.n || x.l; });
+  }
+  function numRender(k, its) {
+    if (k === 'num1') {
+      var f = its[0] || {n: '', l: ''}; var rest = its.slice(1);
+      return '<div class="num1"><div><b>' + esc(f.n) + '</b><span>' + esc(f.l) + '</span></div>' + (rest.length ? '<ul>' + rest.map(function (x) { return '<li><b>' + esc(x.n) + '</b>' + esc(x.l) + '</li>'; }).join('') + '</ul>' : '') + '</div>';
+    }
+    if (k === 'hbar') {
+      var vals = its.map(function (x) { return parseFloat(String(x.n).replace(/[^\d.]/g, '')) || 0; }), mx = Math.max.apply(null, vals.concat([1]));
+      return '<div class="hbar">' + its.map(function (x, i) { return '<div><span>' + esc(x.l) + '</span><p><i style="width:' + Math.round(vals[i] / mx * 100) + '%"></i></p><b>' + esc(x.n) + '</b></div>'; }).join('') + '</div>';
+    }
+    return '<div class="nums' + (its.length >= 5 ? ' s' : '') + '">' + its.map(function (x) { return '<div><b>' + esc(x.n) + '</b>' + esc(x.l) + '</div>'; }).join('') + '</div>';
+  }
+  function txtItems(el, k) {
+    if (k === 'points') return [].map.call(el.children, txt).filter(Boolean);
+    if (k === 'quote') return [txt(el.querySelector('b')), txt(el.querySelector('span'))].filter(Boolean);
+    return [].map.call(el.querySelectorAll('p'), txt).filter(Boolean);
+  }
+  function txtRender(k, its) {
+    if (k === 'points') return '<div class="points">' + its.map(function (x) { return '<p>' + esc(x) + '</p>'; }).join('') + '</div>';
+    if (k === 'quote') return '<div class="quote"><b>' + esc(its[0] || '') + '</b>' + (its[1] ? '<span>' + esc(its.slice(1).join(' ')) + '</span>' : '') + '</div>';
+    return '<div class="note"><div>' + its.map(function (x) { return '<p>' + esc(x) + '</p>'; }).join('') + '</div></div>';
+  }
+  function swapFam(s, k) {
+    var fm = fam(s); if (!fm) return; var tmp = D.createElement('div');
+    tmp.innerHTML = fm.f === 'n' ? numRender(k, numItems(fm.el, fm.k)) : txtRender(k, txtItems(fm.el, fm.k));
+    fm.el.replaceWith(tmp.firstChild);
+  }
   function txt(e) { return e ? e.textContent.replace(/\s+/g, ' ').trim() : ''; }
   function esc(t) { return t.replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
 
@@ -81,11 +128,15 @@
       closeMenu(); menu = D.createElement('div'); menu.className = 'ed-menu'; menu.setAttribute('data-ed', ''); menu.contentEditable = 'false';
       var t = tplOf(s), opts = [];
       GROUPS.forEach(function (g) { if (g.indexOf(t) > -1) g.forEach(function (x) { if (x !== t) opts.push(['t', x]); }); });
-      if (items(s).length) for (var k in SHAPES) { var cur = shapeOf(s); if (!cur || !cur.classList.contains(k)) opts.push(['s', k]); }
+      var fm = fam(s);
+      if (fm && fm.f === 'n') for (var kn in NUMSH) { if (kn !== fm.k) opts.push(['n', kn]); }
+      else if (fm && fm.f === 'x' && fm.k !== 'points') for (var kx in TXTSH) { if (kx !== fm.k) opts.push(['n', kx]); }
+      if (!(fm && fm.f === 'n') && items(s).length) for (var k in SHAPES) { var cur = shapeOf(s); if (!cur || !cur.classList.contains(k)) opts.push(['s', k]); }
+      if (fm && fm.k === 'points') for (var kq in TXTSH) { if (kq !== 'points') opts.push(['n', kq]); }
       if (!opts.length) { var no = D.createElement('button'); no.textContent = 'لا بدائل لهذه الشريحة'; menu.appendChild(no); }
       opts.forEach(function (o) {
-        var x = D.createElement('button'); x.textContent = o[0] === 't' ? 'قالب ' + (NAMES[o[1]] || o[1]) : SHAPES[o[1]];
-        x.onclick = function (e) { e.stopPropagation(); if (o[0] === 't') { s.classList.remove(t); s.classList.add(o[1]); } else toShape(s, o[1]); closeMenu(); };
+        var x = D.createElement('button'); x.textContent = o[0] === 't' ? 'قالب ' + (NAMES[o[1]] || o[1]) : (o[0] === 'n' ? (NUMSH[o[1]] || TXTSH[o[1]]) : SHAPES[o[1]]);
+        x.onclick = function (e) { e.stopPropagation(); if (o[0] === 't') { s.classList.remove(t); s.classList.add(o[1]); } else if (o[0] === 'n') swapFam(s, o[1]); else toShape(s, o[1]); closeMenu(); };
         menu.appendChild(x);
       });
       s.appendChild(menu);
@@ -158,7 +209,9 @@
   D.addEventListener('pointerup', function () { drag = null; rs = null; });
   window.addEventListener('scroll', placeH, true); window.addEventListener('resize', placeH);
   D.addEventListener('keydown', function (e) {
-    if (!move || !sel) return; var k = {ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1]}[e.key]; if (!k) return;
+    if (!move || !sel) return;
+    if (e.key === 'Delete') { e.preventDefault(); var g = sel; setSel(null); g.remove(); return; }
+    var k = {ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1]}[e.key]; if (!k) return;
     e.preventDefault(); var c = cur(sel), st = e.shiftKey ? 2 : 0.3;
     sel.style.translate = (c[0] + k[0] * st).toFixed(2) + 'cqw ' + (c[1] + k[1] * st).toFixed(2) + 'cqw'; placeH();
   });
