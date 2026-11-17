@@ -55,3 +55,9 @@ body{background:#ddd;font-family:"MOMAH","Dubai","Segoe UI",Arial,sans-serif;dir
 .slide.thanks .ty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:5cqw;color:#035C5F}
 .note{position:absolute;bottom:1cqw;right:3cqw;font-size:.85cqw;color:#5A6B69}
 @media print{@page{size:1280px 720px;margin:0}.slide{width:1280px;margin:0;page-break-after:always}}
+/* صيغة مختصرة: الإطار من CSS بدل عناصر في كل شريحة */
+body{counter-reset:pg}.slide{counter-increment:pg}
+.slide.c:not(.cover):not(.thanks){background:linear-gradient(90deg,#8cc63f,#035C5F) left 18cqw top 6cqw/calc(100% - 18cqw) .18cqw no-repeat,linear-gradient(90deg,transparent,#035C5F 70%) right 0 top 5.6cqw/13cqw 1cqw no-repeat,url(https://kindavolunteer.com/images/housing-logo-0.svg) left 2.2cqw top 3.4cqw/auto 3.2cqw no-repeat,linear-gradient(135deg,#dfe9d9 0%,#e9f0e3 55%,#f3f6ef 100%)}
+.slide.c:not(.cover):not(.thanks)::before{content:"";position:absolute;left:14.4cqw;top:0;width:.18cqw;height:3.8cqw;background:#56a13a;box-shadow:0 52.45cqw 0 #56a13a}
+.slide.c:not(.cover):not(.thanks)::after{content:counter(pg);position:absolute;top:5.4cqw;left:14.9cqw;font-size:1cqw;color:#6d8f7b}
+.tbl .h td:first-child{width:4cqw}.tbl .h td:nth-child(2){width:28cqw}.tbl .h td:nth-child(4){width:17cqw}.sum tr:first-child th:first-child{width:3cqw}
