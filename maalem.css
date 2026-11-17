@@ -1,0 +1,58 @@
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#ddd;font-family:"MOMAH","Dubai","Segoe UI",Arial,sans-serif;direction:rtl}
+.slide{position:relative;width:min(1280px,100vw);aspect-ratio:16/9;container-type:inline-size;overflow:hidden;margin:0 auto 8px;background:linear-gradient(135deg,#dfe9d9 0%,#e9f0e3 55%,#f3f6ef 100%);color:#035C5F}
+.slide>.hd{position:absolute;top:1.9cqw;right:5cqw;left:17cqw;font-size:2.05cqw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:700;color:#035C5F;line-height:1.25}
+.slide>.ln{position:absolute;top:6cqw;right:0;left:18cqw;height:.18cqw;background:linear-gradient(90deg,#8cc63f,#035C5F)}
+.slide>.ln::before{content:"";position:absolute;right:0;top:-.42cqw;width:13cqw;height:1cqw;border-radius:1cqw;background:linear-gradient(90deg,transparent,#035C5F 70%)}
+.slide>.lg{position:absolute;top:3.4cqw;left:2.2cqw;height:3.2cqw}
+.slide>.vb{position:absolute;left:14.4cqw;width:.18cqw;height:3.8cqw;background:#56a13a}
+.slide>.vb.t{top:0}.slide>.vb.b{bottom:0}
+.slide>.pg{position:absolute;top:5.4cqw;left:14.9cqw;font-size:1cqw;color:#6d8f7b}
+.slide>.tag{position:absolute;bottom:1.1cqw;left:15.4cqw;padding:.55cqw 3cqw;background:#e6efcf;color:#8fa48f;font-size:1cqw;border-radius:.2cqw}
+.slide>.bd{position:absolute;top:8.4cqw;right:3cqw;left:3cqw;bottom:4cqw}
+/* الغلاف */
+.slide.cover{background:#e3eedc}
+.cover .art{position:absolute;top:0;right:0;left:6.6cqw;height:47cqw;background:radial-gradient(ellipse at 30% 30%,#4fa69c 0%,transparent 35%),linear-gradient(160deg,#0f4a45 0%,#0b2f2c 55%,#163a28 100%);clip-path:polygon(0 0,100% 0,100% 100%,33% 100%,11% 86%,0 92%)}
+.cover .art::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.04) 0 .2cqw,transparent .2cqw 9cqw),repeating-linear-gradient(0deg,rgba(255,255,255,.03) 0 .2cqw,transparent .2cqw 7cqw)}
+.cover .lgc{position:absolute;top:6.5cqw;right:6.5cqw;height:7cqw;filter:brightness(0) invert(1)}
+.cover .t1{position:absolute;top:25cqw;right:6.5cqw;left:20cqw;font-size:2.8cqw;color:#fff;line-height:1.5;text-align:right}
+.cover .t2{position:absolute;top:36.6cqw;right:6.5cqw;font-size:2.3cqw;color:#8cc63f}
+.cover .ft{position:absolute;bottom:3.4cqw;right:9.6cqw;font-size:2cqw;color:#1e9c94}
+.cover .ft b{font-weight:400;letter-spacing:.6cqw}
+/* البطاقة الرئيسية */
+.kpibox{display:flex;gap:6cqw;justify-content:space-between;margin:1.2cqw 2cqw 0}
+.pill{display:flex;border:.08cqw solid #035C5F;height:3.3cqw;font-size:1.25cqw}
+.pill b{background:#035C5F;color:#fff;width:12.5cqw;display:flex;align-items:center;justify-content:center;font-weight:400}
+.pill span{background:#fff;width:7cqw;display:flex;align-items:center;justify-content:center;font-weight:700}
+.goal{margin:1.8cqw 2cqw 0;background:#035C5F;border:.16cqw solid #8cc63f;border-radius:1cqw;display:flex;align-items:center;gap:4cqw;padding:1.6cqw 3cqw;color:#fff;font-size:1.3cqw}
+.goal b{color:#8cc63f;font-size:1.7cqw;font-weight:400;white-space:nowrap}
+.scope{margin:.6cqw 2cqw 0;background:#035C5F;color:#8cc63f;text-align:center;font-size:1.3cqw;padding:.9cqw 0 .4cqw}
+.scope ul{list-style:none;display:grid;grid-template-columns:repeat(6,1fr);margin-top:.9cqw}
+.scope li{background:#fff;color:#035C5F;font-size:1.3cqw;padding:1.3cqw .4cqw;border-left:.08cqw solid #dfe9d9}
+.scope li:nth-child(1),.scope li:nth-child(4){background:#035C5F;color:#fff;font-weight:700}
+.cum{margin:5.2cqw auto 0;width:57cqw;border:.08cqw dashed #035C5F;text-align:center;font-size:2cqw;padding:1cqw}
+.nums{display:grid;grid-template-columns:repeat(6,1fr);margin:3.2cqw 2cqw 0;text-align:center}
+.nums b{display:block;font-size:2.2cqw;font-weight:400;color:#6aa84f}
+.nums span{display:block;font-size:2cqw;color:#035C5F;margin-top:2cqw}
+/* شريحة الأمانة */
+.am{display:flex;align-items:center;gap:1.5cqw;justify-content:flex-start;font-size:2.2cqw;margin:.4cqw 0 0 0}.am img{height:4.6cqw;width:auto}
+.tbl{width:100%;border-collapse:collapse;margin-top:1.4cqw;font-size:1.05cqw;background:#fff}
+.tbl td,.tbl th{border:.08cqw solid #b9bdb5;padding:.7cqw .8cqw;text-align:center;font-weight:400}
+.tbl .cap td{background:#d4e28f;text-align:right;font-weight:700;font-size:.9cqw;padding:1.1cqw 1cqw}
+.tbl .h td{background:#f1f2ef;font-weight:700}
+.tbl .sub{display:block;border-top:.08cqw solid #b9bdb5;margin:.5cqw -.8cqw -.85cqw;padding:.5cqw;font-weight:400;background:#f1f2ef}
+.tbl .ach{color:#035C5F;font-weight:700}
+.tbl .band td{background:#035C5F;color:#fff;padding:1.2cqw}
+.tbl .pr td{background:#f1f2ef;padding:.55cqw .8cqw}
+.tbl .pr td.ck{background:#fff;width:17cqw;font-size:1.6cqw;color:#6aa84f;line-height:1}
+.tbl:has(tr:nth-of-type(11)) .pr td{padding:.38cqw .8cqw;font-size:.95cqw}.tbl:has(tr:nth-of-type(14)) .pr td{padding:.22cqw .8cqw;font-size:.88cqw}.tbl:has(tr:nth-of-type(11)) .pr td.ck{font-size:1.2cqw}
+.man{color:#b26b00;font-size:.75em;vertical-align:super}
+/* الملخص */
+.sum{width:74cqw;margin:1.2cqw 0 0 auto;border-collapse:collapse;font-size:1cqw;background:#fff}
+.sum th{background:#d4e28f;color:#035C5F;padding:.5cqw;border:.08cqw solid #b9bdb5}
+.sum td{border:.08cqw solid #b9bdb5;padding:.28cqw .6cqw;text-align:center}
+.sum td.n{background:#f1f2ef;text-align:right}
+.sum tr.tot td{background:#f1f2ef;font-size:1.15cqw;padding:.7cqw}
+.slide.thanks .ty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:5cqw;color:#035C5F}
+.note{position:absolute;bottom:1cqw;right:3cqw;font-size:.85cqw;color:#5A6B69}
+@media print{@page{size:1280px 720px;margin:0}.slide{width:1280px;margin:0;page-break-after:always}}
