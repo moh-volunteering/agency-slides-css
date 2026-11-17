@@ -12,8 +12,7 @@ body{background:#ddd;font-family:"MOMAH","Dubai","Segoe UI",Arial,sans-serif;dir
 .slide>.bd{position:absolute;top:8.4cqw;right:3cqw;left:3cqw;bottom:4cqw}
 /* الغلاف */
 .slide.cover{background:#e3eedc}
-.cover .art{position:absolute;top:0;right:0;left:6.6cqw;height:47cqw;background:radial-gradient(ellipse at 30% 30%,#4fa69c 0%,transparent 35%),linear-gradient(160deg,#0f4a45 0%,#0b2f2c 55%,#163a28 100%);clip-path:polygon(0 0,100% 0,100% 100%,33% 100%,11% 86%,0 92%)}
-.cover .art::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.04) 0 .2cqw,transparent .2cqw 9cqw),repeating-linear-gradient(0deg,rgba(255,255,255,.03) 0 .2cqw,transparent .2cqw 7cqw)}
+.cover .art{position:absolute;top:0;right:0;left:6.6cqw;height:47cqw;background:url(maalem-cover.png) center/100% 100% no-repeat}
 .cover .lgc{position:absolute;top:6.5cqw;right:6.5cqw;height:7cqw;filter:brightness(0) invert(1)}
 .cover .t1{position:absolute;top:25cqw;right:6.5cqw;left:20cqw;font-size:2.8cqw;color:#fff;line-height:1.5;text-align:right}
 .cover .t2{position:absolute;top:36.6cqw;right:6.5cqw;font-size:2.3cqw;color:#8cc63f}
